@@ -2,6 +2,57 @@
 <html>
     <head>
         <title>War Card JS</title>
+        <style>
+            .icard {
+                position: absolute;
+                padding: 10px;
+                height: 200px;
+                width: 150px;
+                border: 1px solid black;
+                border-radius: 15px;
+                background-color: white;
+                display: inline-block;
+                top: 0;
+                left: 0;
+            }
+            .cardtop {
+                font-size: 2em;
+                height: 40px;
+                line-height: 0.7em;
+            }
+            .cardmid {
+                text-align: center;
+                line-height: 110px;
+                font-size: 4em;
+                height: 110px;
+            }
+            .cardbottom {
+                font-size: 2em;
+                height: 50px;
+                line-height: 0.7em;
+                transform: rotate(-180deg);
+                -webkit-transform: rotate(-180deg);
+                -moz-transform: rotate(-180deg);
+                -ms-transform: rotate(-180deg);
+                -o-transform: rotate(-180deg);
+            }
+
+            .hearts .suit::after { content: '\2665'; }
+            .spades .suit::after { content: '\2660'; }
+            .clubs  .suit::after { content: '\2663'; }
+            .diams  .suit::after { content: '\2666'; }
+            .spades, .clubs { color: black; }
+            .hearts, .diams { color: red; }
+            .hand {
+                position: relative;
+            }
+            .players {
+                float: left;
+                width: 49%;
+                min-height: 300px;
+                border: 1px solid black;
+            }
+        </style>
     </head>
     <body>
         <div id="wrapper">
@@ -27,8 +78,11 @@
             var cards = [];
             var players = [[], []];
             var firstRun = true;
+            var gameover = false;
             var startButton = document.querySelector("#btnStart");
-            
+            var p1 = document.querySelector("#player1 .hand");
+            var p2 = document.querySelector("#player2 .hand");
+
             startButton.addEventListener('click', play);
 
             function play() {
@@ -38,6 +92,33 @@
                     shuffleArray(cards);
                     dealCards(cards);
                 }
+
+                attack();
+            }
+
+            function attack() {
+                if(!gameover) {
+                    var card1 = players[0].shift();
+                    var card2 = players[0].shift();
+                    var pot = [card1, card2];
+
+                    p1.innerHTML = showCard(card1, 0);
+                    p2.innerHTML = showCard(card2, 0);
+                    // update HTML
+                    // check winners
+                    // update scoreds
+                }
+            }
+
+            function showCard(c,p) {
+                var move = p * 40;
+                var bgColor = (c.icon == "H" || c.icon == "D") ? "red" : "black";
+                var bCard = '<div class="icard ' + c.suit +' " style="left:' + move + 'px">';
+                bCard += '<div class="cardtop suit">' + c.num + '<br></div>';
+                bCard += '<div class="cardmid suit"></div>';
+                bCard += '<div class="cardbottom suit">' + c.num + '<br></div></div>';
+                console.log(c, move);
+                return bCard;
             }
 
             function buildCards() {
