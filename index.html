@@ -36,6 +36,7 @@
                     firstRun = false;
                     buildCards();
                     shuffleArray(cards);
+                    dealCards(cards);
                 }
             }
 
@@ -69,6 +70,17 @@
                 }
                 console.log('final', array);
                 return array;
+            }
+
+            function dealCards(array) {
+                for(var i=0; i<array.length; i++) {
+                    if (i % 2 === 0) {
+                        players[0].push(array[i]);
+                    } else {
+                        players[1].push(array[i]);
+                    }
+                }
+                console.log(players);
             }
         </script>
     </body>
