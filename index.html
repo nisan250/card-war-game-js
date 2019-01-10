@@ -50,7 +50,10 @@
                 float: left;
                 width: 49%;
                 min-height: 300px;
-                border: 1px solid black;
+                border: 1px solid #ddd;
+            }
+            .score {
+                font-size: 1.5em;
             }
         </style>
     </head>
@@ -60,15 +63,15 @@
                 <div class="message"></div>
                 <div class="board">
                     <div id="player1" class="players">
-                        <div class="score"></div>
+                        <div>SCORE:<span class="score"></span></div>
                         <div class="hand"></div>
                     </div>
                     <div id="player2" class="players">
-                        <div class="score"></div>
+                        <div>SCORE:<span  class="score"></span></div>
                         <div class="hand"></div>
                     </div>
                     <div id="action">
-                        <button id="btnStart" type="button" class="btn">Start</button>
+                        <button id="dealCards" type="button" class="btn">Deal Cards</button>
                     </div>
                 </div>
         </div>
@@ -79,9 +82,12 @@
             var players = [[], []];
             var firstRun = true;
             var gameover = false;
-            var startButton = document.querySelector("#btnStart");
+            var startButton = document.querySelector("#dealCards");
             var p1 = document.querySelector("#player1 .hand");
             var p2 = document.querySelector("#player2 .hand");
+            var s1 = document.querySelector("#player1 .score");
+            var s2 = document.querySelector("#player2 .score");
+
 
             startButton.addEventListener('click', play);
 
@@ -99,15 +105,30 @@
             function attack() {
                 if(!gameover) {
                     var card1 = players[0].shift();
-                    var card2 = players[0].shift();
+                    var card2 = players[1].shift();
                     var pot = [card1, card2];
 
                     p1.innerHTML = showCard(card1, 0);
                     p2.innerHTML = showCard(card2, 0);
-                    // update HTML
                     // check winners
+                    checkWinner(card1, card2, pot);
+                    s1.innerHTML = players[0].length;
+                    s2.innerHTML = players[1].length;
                     // update scoreds
                 }
+            }
+
+            function checkWinner(card1, card2, pot) {
+                if(card1.cardValue > card2.cardValue) {
+                    console.log('hand 1 wins', card1.cardValue, card2.cardValue);
+                    players[0] = players[0].concat(pot);
+                } else if(card1.cardValue < card2.cardValue) {
+                    console.log('hand 2 wins', card1.cardValue, card2.cardValue);
+                    players[1] = players[1].concat(pot);
+                } else {
+                    console.warn('tie', card1.cardValue, card2.cardValue);
+                }
+                
             }
 
             function showCard(c,p) {
@@ -117,7 +138,6 @@
                 bCard += '<div class="cardtop suit">' + c.num + '<br></div>';
                 bCard += '<div class="cardmid suit"></div>';
                 bCard += '<div class="cardbottom suit">' + c.num + '<br></div></div>';
-                console.log(c, move);
                 return bCard;
             }
 
@@ -136,20 +156,15 @@
                         cards.push(card);
                     }
                 }
-                console.log(cards);
             }
             
             function shuffleArray(array) {
                 for(var x = array.length - 1; x > 0; x--) {
                    var ii = Math.floor(Math.random() * (x + 1));
-                   console.log('x + 1', x + 1);
-                   console.log('ii', ii);
                    var temp = array[x];
-                   console.log('temp', temp);
                    array[x] = array[ii];
                    array[ii] = temp;
                 }
-                console.log('final', array);
                 return array;
             }
 
@@ -161,7 +176,6 @@
                         players[1].push(array[i]);
                     }
                 }
-                console.log(players);
             }
         </script>
     </body>
