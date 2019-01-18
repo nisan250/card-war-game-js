@@ -3,6 +3,9 @@
     <head>
         <title>War Card JS</title>
         <style>
+            body {
+                font-family: 'Lato', sans-serif;
+            }
             .icard {
                 position: absolute;
                 padding: 10px;
@@ -60,6 +63,43 @@
                 color: white;
                 background-color: black;
             }
+            /*nice button style*/
+            a[class*="btn"] {
+                text-decoration: none;
+                cursor: pointer;
+                font-family: 'Lato', sans-serif;
+            }
+            .btn-gradient.green {
+                background: rgba(130,200,160,1);
+                background: -moz-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+                background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(130,200,160,1)), color-stop(100%, rgba(130,199,158,1)));
+                background: -webkit-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+                background: -o-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+                background: -ms-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+                background: linear-gradient(to bottom, rgba(130,200,160,1) 0%, rgba(124, 185, 149, 1) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82c8a0', endColorstr='#82c79e', GradientType=0 );
+            }
+            .btn.mini, .btn-two.mini, .btn-gradient.mini, .btn-effect.mini {
+                padding: 4px 12px;
+                font-size: 12px;
+            }
+            .btn-gradient.green:active {
+                background: #72B08E;
+            }
+            .btn-gradient {
+                text-decoration: none;
+                color: white;
+                padding: 10px 30px;
+                display: inline-block;
+                position: relative;
+                border: 1px solid rgba(0,0,0,0.21);
+                border-bottom: 4px solid rgba(0,0,0,0.21);
+                border-radius: 4px;
+                text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+            }
+            .btn-gradient {
+                margin: 5px;
+            }
         </style>
     </head>
     <body>
@@ -76,7 +116,9 @@
                         <div class="hand"></div>
                     </div>
                     <div id="action">
-                        <button id="dealCards" type="button" class="btn">Fight</button>
+                        <a href="#" id="dealCards" type="button" class="btn btn-gradient green mini">Fight</a>
+                        <a href="#" id="dealCards10" type="button" class="btn btn-gradient green mini">Fight 10 Rounds</a>
+                        <a href="#" id="dealCards50" type="button" class="btn btn-gradient green mini">Fight 50 Rounds</a>
                     </div>
                 </div>
         </div>
@@ -87,7 +129,11 @@
             var players = [[], []];
             var firstRun = true;
             var gameover = false;
+            var timer;
+            var amountRounds = 0;
             var startButton = document.querySelector("#dealCards");
+            var startButton10 = document.querySelector("#dealCards10");
+            var startButton50 = document.querySelector("#dealCards50");
             var p1 = document.querySelector("#player1 .hand");
             var p2 = document.querySelector("#player2 .hand");
             var s1 = document.querySelector("#player1 .score");
@@ -95,8 +141,28 @@
             // var message = document.getElementById('message');
 
             startButton.addEventListener('click', play);
+            startButton10.addEventListener('click', function() {
+                rounds(10);
+            });
+            startButton50.addEventListener('click', function() {
+                rounds(50);
+            });
 
+            function rounds(times) {
+                amountRounds = times;
+
+                timer = setInterval(function() {
+                    play();
+                }, 100);
+            }
             function play() {
+                if(timer) {
+                    amountRounds--;
+                    outputMessage('Rounds Left' + amountRounds);
+                    if(amountRounds < 1) {
+                        window.clearInterval(timer);
+                    }
+                }
                 if(firstRun) {
                     firstRun = false;
                     buildCards();
