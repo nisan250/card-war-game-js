@@ -55,12 +55,17 @@
             .score {
                 font-size: 1.5em;
             }
+            #message {
+                font-size: 1.2em;
+                color: white;
+                background-color: black;
+            }
         </style>
     </head>
     <body>
         <div id="wrapper">
                 <div id="start"></div>
-                <div class="message"></div>
+                <div id="message">Click Fight to Start the Game</div>
                 <div class="board">
                     <div id="player1" class="players">
                         <div>SCORE:<span class="score"></span></div>
@@ -71,7 +76,7 @@
                         <div class="hand"></div>
                     </div>
                     <div id="action">
-                        <button id="dealCards" type="button" class="btn">Deal Cards</button>
+                        <button id="dealCards" type="button" class="btn">Fight</button>
                     </div>
                 </div>
         </div>
@@ -87,7 +92,7 @@
             var p2 = document.querySelector("#player2 .hand");
             var s1 = document.querySelector("#player1 .score");
             var s2 = document.querySelector("#player2 .score");
-
+            // var message = document.getElementById('message');
 
             startButton.addEventListener('click', play);
 
@@ -96,6 +101,7 @@
                     firstRun = false;
                     buildCards();
                     shuffleArray(cards);
+                    console.log('players start', players)
                     dealCards(cards);
                 }
 
@@ -115,20 +121,56 @@
                     s1.innerHTML = players[0].length;
                     s2.innerHTML = players[1].length;
                     // update scoreds
+                } else {
+                    console.log('Game Over');
+                    outputMessage('Game Over');
+                    startButton.disabled = true;
                 }
+            }
+
+            function outputMessage(message) {
+                console.log(document.querySelector("#message"));
+                document.getElementById('message').innerHTML = message;
             }
 
             function checkWinner(card1, card2, pot) {
                 if(card1.cardValue > card2.cardValue) {
-                    console.log('hand 1 wins', card1.cardValue, card2.cardValue);
+                    console.log('Hand 1 Wins', card1.cardValue, card2.cardValue);
                     players[0] = players[0].concat(pot);
+                    outputMessage('Player 1 Wins');
                 } else if(card1.cardValue < card2.cardValue) {
-                    console.log('hand 2 wins', card1.cardValue, card2.cardValue);
+                    console.log('Hand 2 Wins', card1.cardValue, card2.cardValue);
                     players[1] = players[1].concat(pot);
+                    outputMessage('Player 2 Wins');
                 } else {
-                    console.warn('tie', card1.cardValue, card2.cardValue);
+                    battlemode(pot);
+                    console.warn('Tie - Battle Mode', card1.cardValue, card2.cardValue);
+                    outputMessage('Battle Mode');
                 }
-                
+                console.log('players', players)
+            }
+
+            function battlemode(pot) {
+                var card1, card2;
+                var pos = (pot.length/2);
+                if((players[0].length <= 4) || (players[1].length <= 4)) {
+                    console.log('Game Over');
+                    gameover = true;
+                    message.innerHTML();
+                    return
+                } else {
+                    for(var i = 0; i < 4; i++) {
+                        card1 = players[0].shift();
+                        pot = pot.concat(card1);
+                        p1.innerHTML += showCard(card1, (pos+i));
+                    }
+                    for(var i = 0; i < 4; i++) {
+                        card2 = players[1].shift();
+                        pot = pot.concat(card2);
+                        p2.innerHTML += showCard(card2, (pos+i));
+                    }
+                    checkWinner(card1, card2, pot);
+                }
             }
 
             function showCard(c,p) {
