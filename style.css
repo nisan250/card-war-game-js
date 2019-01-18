@@ -1,0 +1,97 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+.icard {
+    position: absolute;
+    padding: 10px;
+    height: 200px;
+    width: 150px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: white;
+    display: inline-block;
+    top: 0;
+    left: 0;
+}
+.cardtop {
+    font-size: 2em;
+    height: 40px;
+    line-height: 0.7em;
+}
+.cardmid {
+    text-align: center;
+    line-height: 110px;
+    font-size: 4em;
+    height: 110px;
+}
+.cardbottom {
+    font-size: 2em;
+    height: 50px;
+    line-height: 0.7em;
+    transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+}
+
+.hearts .suit::after { content: '\2665'; }
+.spades .suit::after { content: '\2660'; }
+.clubs  .suit::after { content: '\2663'; }
+.diams  .suit::after { content: '\2666'; }
+.spades, .clubs { color: black; }
+.hearts, .diams { color: red; }
+.hand {
+    position: relative;
+}
+.players {
+    float: left;
+    width: 49%;
+    min-height: 300px;
+    border: 1px solid #ddd;
+}
+.score {
+    font-size: 1.5em;
+}
+#message {
+    font-size: 1.2em;
+    color: white;
+    background-color: black;
+}
+/*nice button style*/
+a[class*="btn"] {
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+}
+.btn-gradient.green {
+    background: rgba(130,200,160,1);
+    background: -moz-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(130,200,160,1)), color-stop(100%, rgba(130,199,158,1)));
+    background: -webkit-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+    background: -o-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+    background: -ms-linear-gradient(top, rgba(130,200,160,1) 0%, rgba(130,199,158,1) 100%);
+    background: linear-gradient(to bottom, rgba(130,200,160,1) 0%, rgba(124, 185, 149, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82c8a0', endColorstr='#82c79e', GradientType=0 );
+}
+.btn.mini, .btn-two.mini, .btn-gradient.mini, .btn-effect.mini {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+.btn-gradient.green:active {
+    background: #72B08E;
+}
+.btn-gradient {
+    text-decoration: none;
+    color: white;
+    padding: 10px 30px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.21);
+    border-bottom: 4px solid rgba(0,0,0,0.21);
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+.btn-gradient {
+    margin: 5px;
+}
